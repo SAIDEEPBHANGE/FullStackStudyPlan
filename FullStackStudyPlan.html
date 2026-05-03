@@ -1,0 +1,204 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .plan { padding: 1rem 0; }
+  .header { margin-bottom: 1.5rem; }
+  .header h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+  .header p { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
+  .stack-badge { display: inline-block; background: var(--color-background-success); color: var(--color-text-success); font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-top: 6px; }
+  .phases { display: flex; flex-direction: column; gap: 10px; }
+  .phase { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  .phase-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; background: var(--color-background-secondary); user-select: none; }
+  .phase-header:hover { background: var(--color-background-primary); }
+  .phase-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .phase-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .phase-weeks { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; }
+  .phase-arrow { font-size: 11px; color: var(--color-text-tertiary); transition: transform 0.2s; }
+  .phase-arrow.open { transform: rotate(90deg); }
+  .phase-body { display: none; padding: 12px 14px; border-top: 0.5px solid var(--color-border-tertiary); }
+  .phase-body.open { display: block; }
+  .tasks { display: flex; flex-direction: column; gap: 6px; }
+  .task { display: flex; gap: 8px; align-items: flex-start; }
+  .task-bullet { width: 5px; height: 5px; border-radius: 50%; background: var(--color-border-secondary); flex-shrink: 0; margin-top: 6px; }
+  .task-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+  .task-text strong { color: var(--color-text-primary); font-weight: 500; }
+  .warning { font-size: 12px; color: var(--color-text-warning); background: var(--color-background-warning); border-radius: 6px; padding: 6px 10px; margin-top: 10px; }
+  .parallel { font-size: 12px; color: var(--color-text-info); background: var(--color-background-info); border-radius: 6px; padding: 6px 10px; margin-bottom: 10px; }
+  .daily { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 14px; margin-top: 10px; }
+  .daily h3 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
+  .daily-row { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+  .daily-label { font-size: 12px; color: var(--color-text-secondary); min-width: 80px; }
+  .daily-bar { flex: 1; height: 8px; border-radius: 4px; overflow: hidden; background: var(--color-background-secondary); }
+  .daily-fill { height: 100%; border-radius: 4px; }
+  .daily-val { font-size: 12px; color: var(--color-text-secondary); min-width: 40px; text-align: right; }
+
+  .c-learn { background: #7F77DD; }
+  .c-project { background: #1D9E75; }
+  .c-dsa { background: #BA7517; }
+  .c-review { background: #888780; }
+
+  .dot-learn { background: #7F77DD; }
+  .dot-project { background: #1D9E75; }
+  .dot-system { background: #D85A30; }
+  .dot-clean { background: #D4537E; }
+  .dot-tools { background: #378ADD; }
+  .dot-port { background: #639922; }
+  .dot-job { background: #BA7517; }
+</style>
+
+<div class="plan">
+  <div class="header">
+    <h2>Full-stack developer roadmap — ~20 weeks</h2>
+    <p>Employed / transitioning · 2–4 hrs/day · Node.js + React stack</p>
+    <span class="stack-badge">Stack locked: Node.js · React/Next.js · PostgreSQL</span>
+  </div>
+
+  <div class="parallel">
+    ⚑ Parallel track (start week 1): 20–30 min/day DSA on LeetCode — arrays, strings, hashmaps first. Do not defer to Phase 7.
+  </div>
+
+  <div class="phases" id="phases"></div>
+
+  <div class="daily">
+    <h3>Daily time allocation</h3>
+    <div class="daily-row">
+      <span class="daily-label">Learning</span>
+      <div class="daily-bar"><div class="daily-fill c-learn" style="width:25%"></div></div>
+      <span class="daily-val">1 hr</span>
+    </div>
+    <div class="daily-row">
+      <span class="daily-label">Building</span>
+      <div class="daily-bar"><div class="daily-fill c-project" style="width:62%"></div></div>
+      <span class="daily-val">2–3 hrs</span>
+    </div>
+    <div class="daily-row">
+      <span class="daily-label">DSA</span>
+      <div class="daily-bar"><div class="daily-fill c-dsa" style="width:13%"></div></div>
+      <span class="daily-val">30 min</span>
+    </div>
+    <div class="daily-row">
+      <span class="daily-label">Weekly review</span>
+      <div class="daily-bar"><div class="daily-fill c-review" style="width:8%"></div></div>
+      <span class="daily-val">1 day</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const phases = [
+  {
+    dot: "dot-system",
+    title: "Phase 0 — system design primer (moved earlier)",
+    weeks: "Week 1 · 1 week",
+    tasks: [
+      { text: "<strong>Read</strong> System Design Primer (GitHub) — 2 hrs total" },
+      { text: "<strong>Sketch</strong> your SaaS app's architecture before writing any code: DB schema, API routes, folder structure" },
+      { text: "<strong>Learn</strong> REST API design basics: versioning, status codes, error formats, pagination" },
+      { text: "<strong>Understand</strong> monolith-first — start with a monolith, don't jump to microservices" },
+    ],
+    warning: "Critical fix: doing this before Phase 1 prevents architectural regrets in your real projects.",
+    open: true
+  },
+  {
+    dot: "dot-learn",
+    title: "Phase 1 — core fundamentals",
+    weeks: "Weeks 2–4 · 3 weeks",
+    tasks: [
+      { text: "<strong>Node.js</strong>: event loop deeply, async/await, error handling, streams basics, Express middleware" },
+      { text: "<strong>JavaScript</strong>: closures, prototypes, promises, ES6+ — do exercises, not just reading" },
+      { text: "<strong>React</strong>: useEffect, useMemo, useCallback — build small components for each, don't just read docs" },
+      { text: "<strong>State management</strong>: Context API first, Redux only if project demands it" },
+      { text: "<strong>PostgreSQL</strong>: joins, indexes, transactions — run real queries in psql, not just ORM" },
+    ],
+    warning: "Do not spend more than 3 weeks here. Good enough > perfect. Move to projects by week 5."
+  },
+  {
+    dot: "dot-project",
+    title: "Phase 2 — build real projects (apply clean code here)",
+    weeks: "Weeks 5–12 · 8 weeks",
+    tasks: [
+      { text: "<strong>Project 1 (weeks 5–8)</strong>: Full-stack SaaS — Task Manager or CRM. Stack: Next.js + Node.js/Express + PostgreSQL. Must include: JWT auth, CRUD, role-based access, deployed live." },
+      { text: "<strong>Project 2 (weeks 9–11)</strong>: AI-powered app — pick a specific real problem (e.g. 'job listing summarizer for non-English speakers'), not just an OpenAI wrapper. Streaming responses, clean UI." },
+      { text: "<strong>Project 3 (weeks 12)</strong>: Production-grade REST API — pagination, filtering, rate limiting, logging (use Winston or Pino), proper error middleware." },
+      { text: "<strong>Clean code integrated</strong>: Apply SOLID, DRY, folder structure, unit tests as you build — not after." },
+    ],
+    warning: "Each project must be deployed with a live URL and README before moving on. No exceptions."
+  },
+  {
+    dot: "dot-system",
+    title: "Phase 3 — deepen system design",
+    weeks: "Weeks 13–15 · 3 weeks",
+    tasks: [
+      { text: "<strong>Caching</strong>: Redis basics — what to cache, TTL, cache invalidation" },
+      { text: "<strong>DB design</strong>: indexing strategies, normalization vs denormalization tradeoffs" },
+      { text: "<strong>Scalability thinking</strong>: read replicas, connection pooling, N+1 query problem" },
+      { text: "<strong>Practice</strong>: verbally design a URL shortener, a Twitter feed, a notification system — out loud" },
+    ]
+  },
+  {
+    dot: "dot-tools",
+    title: "Phase 4 — tools & workflow",
+    weeks: "Weeks 14–16 · 2 weeks (parallel with Phase 3)",
+    tasks: [
+      { text: "<strong>Git</strong>: feature branching, rebasing, squash commits, pull request workflow" },
+      { text: "<strong>CI/CD</strong>: GitHub Actions — auto-run tests on PR, auto-deploy on merge to main" },
+      { text: "<strong>Deployment</strong>: Render or Railway for backend, Vercel for frontend — keep it simple at this stage" },
+      { text: "<strong>Docker basics</strong>: containerize your Node.js app — this shows up in interviews" },
+    ]
+  },
+  {
+    dot: "dot-port",
+    title: "Phase 5 — portfolio polish",
+    weeks: "Weeks 17–18 · 2 weeks",
+    tasks: [
+      { text: "<strong>3–5 projects</strong>: each needs live demo, clean README with architecture diagram, problem statement, tech choices explained" },
+      { text: "<strong>GitHub profile</strong>: pinned repos, contribution graph visible, profile README" },
+      { text: "<strong>Get feedback</strong>: post your code in communities (r/webdev, dev.to, Discord servers) — you need external review" },
+      { text: "<strong>Open source</strong>: at least 1 small contribution — a bug fix counts" },
+    ],
+    warning: "Missing: your original plan had no feedback loop. This is the most important fix — get a senior dev to review at least one project."
+  },
+  {
+    dot: "dot-job",
+    title: "Phase 6 — interview readiness",
+    weeks: "Weeks 19–20 · 2 weeks",
+    tasks: [
+      { text: "<strong>DSA</strong>: by now you should have 60+ days of daily practice done — focus on patterns: sliding window, two pointers, BFS/DFS, DP basics" },
+      { text: "<strong>System design mock</strong>: do 2–3 mock designs with a peer or record yourself" },
+      { text: "<strong>Resume</strong>: 1 page, each bullet = impact + tech used, link to live projects" },
+      { text: "<strong>LinkedIn</strong>: 'Open to work', list projects with URLs, connect with 20+ devs in your target companies" },
+      { text: "<strong>Apply</strong>: start applying by week 18, not after — interviews take 3–6 weeks to materialise" },
+    ]
+  }
+];
+
+const container = document.getElementById('phases');
+phases.forEach((p, i) => {
+  const el = document.createElement('div');
+  el.className = 'phase';
+  el.innerHTML = `
+    <div class="phase-header" onclick="toggle(${i})">
+      <div class="phase-dot ${p.dot}"></div>
+      <span class="phase-title">${p.title}</span>
+      <span class="phase-weeks">${p.weeks}</span>
+      <span class="phase-arrow${p.open ? ' open' : ''}" id="arrow-${i}">▶</span>
+    </div>
+    <div class="phase-body${p.open ? ' open' : ''}" id="body-${i}">
+      ${p.parallel ? `<div class="parallel">${p.parallel}</div>` : ''}
+      <div class="tasks">
+        ${p.tasks.map(t => `<div class="task"><div class="task-bullet"></div><div class="task-text">${t.text}</div></div>`).join('')}
+      </div>
+      ${p.warning ? `<div class="warning">${p.warning}</div>` : ''}
+    </div>
+  `;
+  container.appendChild(el);
+});
+
+function toggle(i) {
+  const body = document.getElementById('body-' + i);
+  const arrow = document.getElementById('arrow-' + i);
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+</script>
