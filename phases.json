@@ -1,0 +1,146 @@
+[
+  {
+    "dot": "bg-[#D85A30]",
+    "title": "Phase 0 — system design primer (moved earlier)",
+    "weeks": "Week 1 · 1 week",
+    "tasks": [
+      {
+        "text": "<strong>Read</strong> System Design Primer (GitHub) — 2 hrs total"
+      },
+      {
+        "text": "<strong>Sketch</strong> your SaaS app's architecture before writing any code: DB schema, API routes, folder structure"
+      },
+      {
+        "text": "<strong>Learn</strong> REST API design basics: versioning, status codes, error formats, pagination"
+      },
+      {
+        "text": "<strong>Understand</strong> monolith-first — start with a monolith, don't jump to microservices"
+      }
+    ],
+    "warning": "Critical fix: doing this before Phase 1 prevents architectural regrets in your real projects.",
+    "open": true
+  },
+  {
+    "dot": "bg-[#7F77DD]",
+    "title": "Phase 1 — core fundamentals",
+    "weeks": "Weeks 2–4 · 3 weeks",
+    "tasks": [
+      {
+        "text": "<strong>Node.js</strong>: event loop deeply, async/await, error handling, streams basics, Express middleware"
+      },
+      {
+        "text": "<strong>JavaScript</strong>: closures, prototypes, promises, ES6+ — do exercises, not just reading"
+      },
+      {
+        "text": "<strong>React</strong>: useEffect, useMemo, useCallback — build small components for each, don't just read docs"
+      },
+      {
+        "text": "<strong>State management</strong>: Context API first, Redux only if project demands it"
+      },
+      {
+        "text": "<strong>PostgreSQL</strong>: joins, indexes, transactions — run real queries in psql, not just ORM"
+      }
+    ],
+    "warning": "Do not spend more than 3 weeks here. Good enough > perfect. Move to projects by week 5."
+  },
+  {
+    "dot": "bg-[#1D9E75]",
+    "title": "Phase 2 — build real projects (apply clean code here)",
+    "weeks": "Weeks 5–12 · 8 weeks",
+    "tasks": [
+      {
+        "text": "<strong>Project 1 (weeks 5–8)</strong>: Full-stack SaaS — Task Manager or CRM. Stack: Next.js + Node.js/Express + PostgreSQL. Must include: JWT auth, CRUD, role-based access, deployed live."
+      },
+      {
+        "text": "<strong>Project 2 (weeks 9–11)</strong>: AI-powered app — pick a specific real problem (e.g. 'job listing summarizer for non-English speakers'), not just an OpenAI wrapper. Streaming responses, clean UI."
+      },
+      {
+        "text": "<strong>Project 3 (weeks 12)</strong>: Production-grade REST API — pagination, filtering, rate limiting, logging (use Winston or Pino), proper error middleware."
+      },
+      {
+        "text": "<strong>Clean code integrated</strong>: Apply SOLID, DRY, folder structure, unit tests as you build — not after."
+      }
+    ],
+    "warning": "Each project must be deployed with a live URL and README before moving on. No exceptions."
+  },
+  {
+    "dot": "bg-[#D85A30]",
+    "title": "Phase 3 — deepen system design",
+    "weeks": "Weeks 13–15 · 3 weeks",
+    "tasks": [
+      {
+        "text": "<strong>Caching</strong>: Redis basics — what to cache, TTL, cache invalidation"
+      },
+      {
+        "text": "<strong>DB design</strong>: indexing strategies, normalization vs denormalization tradeoffs"
+      },
+      {
+        "text": "<strong>Scalability thinking</strong>: read replicas, connection pooling, N+1 query problem"
+      },
+      {
+        "text": "<strong>Practice</strong>: verbally design a URL shortener, a Twitter feed, a notification system — out loud"
+      }
+    ]
+  },
+  {
+    "dot": "bg-[#378ADD]",
+    "title": "Phase 4 — tools & workflow",
+    "weeks": "Weeks 14–16 · 2 weeks (parallel with Phase 3)",
+    "tasks": [
+      {
+        "text": "<strong>Git</strong>: feature branching, rebasing, squash commits, pull request workflow"
+      },
+      {
+        "text": "<strong>CI/CD</strong>: GitHub Actions — auto-run tests on PR, auto-deploy on merge to main"
+      },
+      {
+        "text": "<strong>Deployment</strong>: Render or Railway for backend, Vercel for frontend — keep it simple at this stage"
+      },
+      {
+        "text": "<strong>Docker basics</strong>: containerize your Node.js app — this shows up in interviews"
+      }
+    ]
+  },
+  {
+    "dot": "bg-[#639922]",
+    "title": "Phase 5 — portfolio polish",
+    "weeks": "Weeks 17–18 · 2 weeks",
+    "tasks": [
+      {
+        "text": "<strong>3–5 projects</strong>: each needs live demo, clean README with architecture diagram, problem statement, tech choices explained"
+      },
+      {
+        "text": "<strong>GitHub profile</strong>: pinned repos, contribution graph visible, profile README"
+      },
+      {
+        "text": "<strong>Get feedback</strong>: post your code in communities (r/webdev, dev.to, Discord servers) — you need external review"
+      },
+      {
+        "text": "<strong>Open source</strong>: at least 1 small contribution — a bug fix counts"
+      }
+    ],
+    "warning": "Missing: your original plan had no feedback loop. This is the most important fix — get a senior dev to review at least one project."
+  },
+  {
+    "dot": "bg-[#BA7517]",
+    "title": "Phase 6 — interview readiness",
+    "weeks": "Weeks 19–20 · 2 weeks",
+    "tasks": [
+      {
+        "text": "<strong>DSA</strong>: by now you should have 60+ days of daily practice done — focus on patterns: sliding window, two pointers, BFS/DFS, DP basics"
+      },
+      {
+        "text": "<strong>System design mock</strong>: do 2–3 mock designs with a peer or record yourself"
+      },
+      {
+        "text": "<strong>Resume</strong>: 1 page, each bullet = impact + tech used, link to live projects"
+      },
+      {
+        "text": "<strong>LinkedIn</strong>: 'Open to work', list projects with URLs, connect with 20+ devs in your target companies"
+      },
+      {
+        "text": "<strong>Apply</strong>: start applying by week 18, not after — interviews take 3–6 weeks to materialise"
+      }
+    ]
+  }
+]

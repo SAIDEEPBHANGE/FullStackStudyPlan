@@ -1,204 +1,511 @@
+<script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font-sans); }
-  .plan { padding: 1rem 0; }
-  .header { margin-bottom: 1.5rem; }
-  .header h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
-  .header p { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
-  .stack-badge { display: inline-block; background: var(--color-background-success); color: var(--color-text-success); font-size: 11px; padding: 2px 8px; border-radius: 4px; margin-top: 6px; }
-  .phases { display: flex; flex-direction: column; gap: 10px; }
-  .phase { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
-  .phase-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; background: var(--color-background-secondary); user-select: none; }
-  .phase-header:hover { background: var(--color-background-primary); }
-  .phase-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .phase-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
-  .phase-weeks { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; }
-  .phase-arrow { font-size: 11px; color: var(--color-text-tertiary); transition: transform 0.2s; }
-  .phase-arrow.open { transform: rotate(90deg); }
-  .phase-body { display: none; padding: 12px 14px; border-top: 0.5px solid var(--color-border-tertiary); }
-  .phase-body.open { display: block; }
-  .tasks { display: flex; flex-direction: column; gap: 6px; }
-  .task { display: flex; gap: 8px; align-items: flex-start; }
-  .task-bullet { width: 5px; height: 5px; border-radius: 50%; background: var(--color-border-secondary); flex-shrink: 0; margin-top: 6px; }
-  .task-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
-  .task-text strong { color: var(--color-text-primary); font-weight: 500; }
-  .warning { font-size: 12px; color: var(--color-text-warning); background: var(--color-background-warning); border-radius: 6px; padding: 6px 10px; margin-top: 10px; }
-  .parallel { font-size: 12px; color: var(--color-text-info); background: var(--color-background-info); border-radius: 6px; padding: 6px 10px; margin-bottom: 10px; }
-  .daily { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 14px; margin-top: 10px; }
-  .daily h3 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
-  .daily-row { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
-  .daily-label { font-size: 12px; color: var(--color-text-secondary); min-width: 80px; }
-  .daily-bar { flex: 1; height: 8px; border-radius: 4px; overflow: hidden; background: var(--color-background-secondary); }
-  .daily-fill { height: 100%; border-radius: 4px; }
-  .daily-val { font-size: 12px; color: var(--color-text-secondary); min-width: 40px; text-align: right; }
+<div
+  class="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans overflow-hidden"
+>
+  <!-- Sidebar Navigation -->
+  <div
+    class="w-64 bg-gray-900 border-r border-gray-700 flex flex-col p-6 overflow-y-auto"
+  >
+    <div class="mb-8">
+      <h1
+        class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
+      >
+        DevRoadmap
+      </h1>
+      <p class="text-xs text-gray-500 mt-1">Full-Stack Journey</p>
+    </div>
 
-  .c-learn { background: #7F77DD; }
-  .c-project { background: #1D9E75; }
-  .c-dsa { background: #BA7517; }
-  .c-review { background: #888780; }
+    <nav class="space-y-2 flex-1">
+      <button
+        onclick="switchView('overview')"
+        class="view-btn w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg"
+        data-view="overview"
+      >
+        📊 Overview
+      </button>
+      <button
+        onclick="switchView('phases')"
+        class="view-btn w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700"
+        data-view="phases"
+      >
+        📚 Phases
+      </button>
+      <button
+        onclick="switchView('timeline')"
+        class="view-btn w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700"
+        data-view="timeline"
+      >
+        📅 Timeline
+      </button>
+      <button
+        onclick="switchView('progress')"
+        class="view-btn w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700"
+        data-view="progress"
+      >
+        ✅ Progress
+      </button>
+    </nav>
 
-  .dot-learn { background: #7F77DD; }
-  .dot-project { background: #1D9E75; }
-  .dot-system { background: #D85A30; }
-  .dot-clean { background: #D4537E; }
-  .dot-tools { background: #378ADD; }
-  .dot-port { background: #639922; }
-  .dot-job { background: #BA7517; }
-</style>
-
-<div class="plan">
-  <div class="header">
-    <h2>Full-stack developer roadmap — ~20 weeks</h2>
-    <p>Employed / transitioning · 2–4 hrs/day · Node.js + React stack</p>
-    <span class="stack-badge">Stack locked: Node.js · React/Next.js · PostgreSQL</span>
+    <div class="border-t border-gray-700 pt-4 space-y-2">
+      <button
+        onclick="exportData()"
+        class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700 flex items-center gap-2"
+      >
+        💾 Export
+      </button>
+      <button
+        onclick="toggleDarkMode()"
+        class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700 flex items-center gap-2"
+      >
+        🌓 Theme
+      </button>
+    </div>
   </div>
 
-  <div class="parallel">
-    ⚑ Parallel track (start week 1): 20–30 min/day DSA on LeetCode — arrays, strings, hashmaps first. Do not defer to Phase 7.
-  </div>
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <!-- Header -->
+    <div
+      class="bg-gray-800 border-b border-gray-700 px-8 py-4 flex items-center justify-between"
+    >
+      <div>
+        <h2 class="text-2xl font-bold">Full-Stack Developer Roadmap</h2>
+        <p class="text-sm text-gray-400 mt-1">
+          ~20 weeks · Node.js + React + PostgreSQL
+        </p>
+      </div>
+      <div class="flex gap-3">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="🔍 Search phases..."
+          class="px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:border-blue-500 focus:outline-none transition"
+          onkeyup="filterPhases()"
+        />
+        <select
+          id="sortSelect"
+          onchange="sortPhases()"
+          class="px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:outline-none transition"
+        >
+          <option value="default">Sort by default</option>
+          <option value="difficulty">Sort by difficulty</option>
+          <option value="weeks">Sort by weeks</option>
+        </select>
+      </div>
+    </div>
 
-  <div class="phases" id="phases"></div>
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto">
+      <!-- Overview Tab -->
+      <div id="overview-view" class="view-content p-8 space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div
+            class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6"
+          >
+            <div class="text-3xl font-bold">20</div>
+            <div class="text-sm text-blue-100 mt-1">Total Weeks</div>
+          </div>
+          <div
+            class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6"
+          >
+            <div class="text-3xl font-bold">7</div>
+            <div class="text-sm text-purple-100 mt-1">Phases</div>
+          </div>
+          <div
+            class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6"
+          >
+            <div class="text-3xl font-bold">4</div>
+            <div class="text-sm text-green-100 mt-1">Daily Hours</div>
+          </div>
+          <div
+            class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6"
+          >
+            <div class="text-3xl font-bold" id="completedPhases">0</div>
+            <div class="text-sm text-orange-100 mt-1">Completed</div>
+          </div>
+        </div>
 
-  <div class="daily">
-    <h3>Daily time allocation</h3>
-    <div class="daily-row">
-      <span class="daily-label">Learning</span>
-      <div class="daily-bar"><div class="daily-fill c-learn" style="width:25%"></div></div>
-      <span class="daily-val">1 hr</span>
-    </div>
-    <div class="daily-row">
-      <span class="daily-label">Building</span>
-      <div class="daily-bar"><div class="daily-fill c-project" style="width:62%"></div></div>
-      <span class="daily-val">2–3 hrs</span>
-    </div>
-    <div class="daily-row">
-      <span class="daily-label">DSA</span>
-      <div class="daily-bar"><div class="daily-fill c-dsa" style="width:13%"></div></div>
-      <span class="daily-val">30 min</span>
-    </div>
-    <div class="daily-row">
-      <span class="daily-label">Weekly review</span>
-      <div class="daily-bar"><div class="daily-fill c-review" style="width:8%"></div></div>
-      <span class="daily-val">1 day</span>
+        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+          <h3 class="text-lg font-semibold mb-4">📍 Quick Info</h3>
+          <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">⏰</span>
+              <span>2–4 hrs/day learning + building</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">📚</span>
+              <span>Node.js + React/Next.js + PostgreSQL</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">💻</span>
+              <span>Employed / transitioning developers</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">⚡</span>
+              <span>Parallel DSA track from week 1</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-blue-900 border border-blue-500 rounded-lg p-4">
+          <div class="flex items-start gap-3">
+            <span class="text-2xl">⚑</span>
+            <div>
+              <div class="font-semibold">Parallel Track (Required)</div>
+              <p class="text-sm text-blue-100 mt-1">
+                20–30 min/day DSA on LeetCode — arrays, strings, hashmaps first.
+                Do not defer to Phase 7.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+          <h3 class="text-lg font-semibold mb-4">⏱️ Daily Time Allocation</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium">📖 Learning</span>
+                <span class="text-xs text-gray-400">1 hour (25%)</span>
+              </div>
+              <div class="h-3 rounded-full overflow-hidden bg-gray-700">
+                <div
+                  class="h-full w-1/4 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium">🛠️ Building</span>
+                <span class="text-xs text-gray-400">2–3 hours (62%)</span>
+              </div>
+              <div class="h-3 rounded-full overflow-hidden bg-gray-700">
+                <div
+                  class="h-full w-3/5 bg-gradient-to-r from-green-400 to-green-500 rounded-full"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium">💡 DSA</span>
+                <span class="text-xs text-gray-400">30 min (13%)</span>
+              </div>
+              <div class="h-3 rounded-full overflow-hidden bg-gray-700">
+                <div
+                  class="h-full w-1/8 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium">📋 Weekly Review</span>
+                <span class="text-xs text-gray-400">1 day (8%)</span>
+              </div>
+              <div class="h-3 rounded-full overflow-hidden bg-gray-700">
+                <div
+                  class="h-full w-1/12 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phases Tab -->
+      <div id="phases-view" class="view-content hidden p-8 space-y-4">
+        <div id="phases" class="space-y-4"></div>
+      </div>
+
+      <!-- Timeline Tab -->
+      <div id="timeline-view" class="view-content hidden p-8">
+        <div id="timeline" class="space-y-6"></div>
+      </div>
+
+      <!-- Progress Tab -->
+      <div id="progress-view" class="view-content hidden p-8">
+        <div id="progressContent" class="space-y-4"></div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-const phases = [
-  {
-    dot: "dot-system",
-    title: "Phase 0 — system design primer (moved earlier)",
-    weeks: "Week 1 · 1 week",
-    tasks: [
-      { text: "<strong>Read</strong> System Design Primer (GitHub) — 2 hrs total" },
-      { text: "<strong>Sketch</strong> your SaaS app's architecture before writing any code: DB schema, API routes, folder structure" },
-      { text: "<strong>Learn</strong> REST API design basics: versioning, status codes, error formats, pagination" },
-      { text: "<strong>Understand</strong> monolith-first — start with a monolith, don't jump to microservices" },
-    ],
-    warning: "Critical fix: doing this before Phase 1 prevents architectural regrets in your real projects.",
-    open: true
-  },
-  {
-    dot: "dot-learn",
-    title: "Phase 1 — core fundamentals",
-    weeks: "Weeks 2–4 · 3 weeks",
-    tasks: [
-      { text: "<strong>Node.js</strong>: event loop deeply, async/await, error handling, streams basics, Express middleware" },
-      { text: "<strong>JavaScript</strong>: closures, prototypes, promises, ES6+ — do exercises, not just reading" },
-      { text: "<strong>React</strong>: useEffect, useMemo, useCallback — build small components for each, don't just read docs" },
-      { text: "<strong>State management</strong>: Context API first, Redux only if project demands it" },
-      { text: "<strong>PostgreSQL</strong>: joins, indexes, transactions — run real queries in psql, not just ORM" },
-    ],
-    warning: "Do not spend more than 3 weeks here. Good enough > perfect. Move to projects by week 5."
-  },
-  {
-    dot: "dot-project",
-    title: "Phase 2 — build real projects (apply clean code here)",
-    weeks: "Weeks 5–12 · 8 weeks",
-    tasks: [
-      { text: "<strong>Project 1 (weeks 5–8)</strong>: Full-stack SaaS — Task Manager or CRM. Stack: Next.js + Node.js/Express + PostgreSQL. Must include: JWT auth, CRUD, role-based access, deployed live." },
-      { text: "<strong>Project 2 (weeks 9–11)</strong>: AI-powered app — pick a specific real problem (e.g. 'job listing summarizer for non-English speakers'), not just an OpenAI wrapper. Streaming responses, clean UI." },
-      { text: "<strong>Project 3 (weeks 12)</strong>: Production-grade REST API — pagination, filtering, rate limiting, logging (use Winston or Pino), proper error middleware." },
-      { text: "<strong>Clean code integrated</strong>: Apply SOLID, DRY, folder structure, unit tests as you build — not after." },
-    ],
-    warning: "Each project must be deployed with a live URL and README before moving on. No exceptions."
-  },
-  {
-    dot: "dot-system",
-    title: "Phase 3 — deepen system design",
-    weeks: "Weeks 13–15 · 3 weeks",
-    tasks: [
-      { text: "<strong>Caching</strong>: Redis basics — what to cache, TTL, cache invalidation" },
-      { text: "<strong>DB design</strong>: indexing strategies, normalization vs denormalization tradeoffs" },
-      { text: "<strong>Scalability thinking</strong>: read replicas, connection pooling, N+1 query problem" },
-      { text: "<strong>Practice</strong>: verbally design a URL shortener, a Twitter feed, a notification system — out loud" },
-    ]
-  },
-  {
-    dot: "dot-tools",
-    title: "Phase 4 — tools & workflow",
-    weeks: "Weeks 14–16 · 2 weeks (parallel with Phase 3)",
-    tasks: [
-      { text: "<strong>Git</strong>: feature branching, rebasing, squash commits, pull request workflow" },
-      { text: "<strong>CI/CD</strong>: GitHub Actions — auto-run tests on PR, auto-deploy on merge to main" },
-      { text: "<strong>Deployment</strong>: Render or Railway for backend, Vercel for frontend — keep it simple at this stage" },
-      { text: "<strong>Docker basics</strong>: containerize your Node.js app — this shows up in interviews" },
-    ]
-  },
-  {
-    dot: "dot-port",
-    title: "Phase 5 — portfolio polish",
-    weeks: "Weeks 17–18 · 2 weeks",
-    tasks: [
-      { text: "<strong>3–5 projects</strong>: each needs live demo, clean README with architecture diagram, problem statement, tech choices explained" },
-      { text: "<strong>GitHub profile</strong>: pinned repos, contribution graph visible, profile README" },
-      { text: "<strong>Get feedback</strong>: post your code in communities (r/webdev, dev.to, Discord servers) — you need external review" },
-      { text: "<strong>Open source</strong>: at least 1 small contribution — a bug fix counts" },
-    ],
-    warning: "Missing: your original plan had no feedback loop. This is the most important fix — get a senior dev to review at least one project."
-  },
-  {
-    dot: "dot-job",
-    title: "Phase 6 — interview readiness",
-    weeks: "Weeks 19–20 · 2 weeks",
-    tasks: [
-      { text: "<strong>DSA</strong>: by now you should have 60+ days of daily practice done — focus on patterns: sliding window, two pointers, BFS/DFS, DP basics" },
-      { text: "<strong>System design mock</strong>: do 2–3 mock designs with a peer or record yourself" },
-      { text: "<strong>Resume</strong>: 1 page, each bullet = impact + tech used, link to live projects" },
-      { text: "<strong>LinkedIn</strong>: 'Open to work', list projects with URLs, connect with 20+ devs in your target companies" },
-      { text: "<strong>Apply</strong>: start applying by week 18, not after — interviews take 3–6 weeks to materialise" },
-    ]
+  let allPhases = [];
+  let filteredPhases = [];
+  let completedPhases = {};
+  let currentView = "overview";
+
+  // Initialize local storage for progress tracking
+  function initializeProgress() {
+    const stored = localStorage.getItem("roadmapProgress");
+    if (stored) {
+      completedPhases = JSON.parse(stored);
+    }
+    updateCompletedCount();
   }
-];
 
-const container = document.getElementById('phases');
-phases.forEach((p, i) => {
-  const el = document.createElement('div');
-  el.className = 'phase';
-  el.innerHTML = `
-    <div class="phase-header" onclick="toggle(${i})">
-      <div class="phase-dot ${p.dot}"></div>
-      <span class="phase-title">${p.title}</span>
-      <span class="phase-weeks">${p.weeks}</span>
-      <span class="phase-arrow${p.open ? ' open' : ''}" id="arrow-${i}">▶</span>
-    </div>
-    <div class="phase-body${p.open ? ' open' : ''}" id="body-${i}">
-      ${p.parallel ? `<div class="parallel">${p.parallel}</div>` : ''}
-      <div class="tasks">
-        ${p.tasks.map(t => `<div class="task"><div class="task-bullet"></div><div class="task-text">${t.text}</div></div>`).join('')}
+  // Save progress to local storage
+  function saveProgress() {
+    localStorage.setItem("roadmapProgress", JSON.stringify(completedPhases));
+    updateCompletedCount();
+  }
+
+  // Update completed count
+  function updateCompletedCount() {
+    const count = Object.values(completedPhases).filter((v) => v).length;
+    document.getElementById("completedPhases").textContent = count;
+  }
+
+  // Switch views
+  function switchView(view) {
+    currentView = view;
+
+    // Hide all views
+    document
+      .querySelectorAll(".view-content")
+      .forEach((el) => el.classList.add("hidden"));
+
+    // Show selected view
+    document.getElementById(view + "-view").classList.remove("hidden");
+
+    // Update button styles
+    document.querySelectorAll(".view-btn").forEach((btn) => {
+      btn.classList.remove(
+        "bg-gradient-to-r",
+        "from-blue-500",
+        "to-purple-500",
+      );
+      btn.classList.add("hover:bg-gray-700");
+    });
+    event.target.classList.add(
+      "bg-gradient-to-r",
+      "from-blue-500",
+      "to-purple-500",
+    );
+    event.target.classList.remove("hover:bg-gray-700");
+
+    // Render view-specific content
+    if (view === "timeline") renderTimeline();
+    else if (view === "progress") renderProgress();
+  }
+
+  // Fetch phases data from JSON file
+  async function loadPhases() {
+    try {
+      const response = await fetch("phases.json");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      allPhases = await response.json();
+      filteredPhases = [...allPhases];
+      initializeProgress();
+      renderPhases(filteredPhases);
+      renderTimeline();
+    } catch (error) {
+      console.error("Error loading phases:", error);
+      document.getElementById("phases").innerHTML =
+        '<div class="text-red-400">Error loading phases data</div>';
+    }
+  }
+
+  // Render phases
+  function renderPhases(phases) {
+    const container = document.getElementById("phases");
+    container.innerHTML = "";
+
+    phases.forEach((p, i) => {
+      const phaseId = `phase-${i}`;
+      const isCompleted = completedPhases[phaseId];
+
+      const el = document.createElement("div");
+      el.className =
+        "border border-gray-700 rounded-lg overflow-hidden bg-gray-800 hover:border-gray-600 transition-all " +
+        (isCompleted ? "opacity-75" : "");
+      el.innerHTML = `
+        <div class="flex items-center gap-3 p-4 cursor-pointer bg-gray-700 hover:bg-gray-600 transition-colors" onclick="togglePhase(${i}, event)">
+          <input type="checkbox" id="check-${i}" class="w-5 h-5 rounded cursor-pointer" ${isCompleted ? "checked" : ""} onclick="togglePhaseCheckbox(${i}, event)">
+          <div class="w-3 h-3 rounded-full shrink-0 ${p.dot}"></div>
+          <div class="flex-1">
+            <div class="font-semibold text-white">${p.title}</div>
+            <div class="text-xs text-gray-400 mt-0.5">${p.weeks}</div>
+          </div>
+          <span class="text-gray-400 transition-transform duration-200" id="arrow-${i}">▼</span>
+        </div>
+        <div class="hidden p-4 border-t border-gray-700 bg-gray-800" id="body-${i}">
+          ${p.warning ? `<div class="text-xs text-yellow-400 bg-yellow-900 bg-opacity-20 border border-yellow-700 rounded px-3 py-2 mb-3">⚠️ ${p.warning}</div>` : ""}
+          <div class="space-y-2">
+            ${p.tasks
+              .map(
+                (t, taskIdx) => `
+              <div class="flex gap-3 items-start text-sm text-gray-300">
+                <input type="checkbox" class="mt-1 cursor-pointer w-4 h-4 rounded" onchange="saveProgress()" data-phase="${i}" data-task="${taskIdx}">
+                <div>${t.text}</div>
+              </div>
+            `,
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+      container.appendChild(el);
+    });
+  }
+
+  // Toggle phase expand/collapse
+  function togglePhase(i, event) {
+    if (event.target.type === "checkbox") return;
+
+    const body = document.getElementById("body-" + i);
+    const arrow = document.getElementById("arrow-" + i);
+    const isOpen = !body.classList.contains("hidden");
+
+    if (isOpen) {
+      body.classList.add("hidden");
+      arrow.textContent = "▶";
+    } else {
+      body.classList.remove("hidden");
+      arrow.textContent = "▼";
+    }
+  }
+
+  // Toggle phase completion
+  function togglePhaseCheckbox(i, event) {
+    const phaseId = `phase-${i}`;
+    completedPhases[phaseId] = event.target.checked;
+    saveProgress();
+  }
+
+  // Filter phases
+  function filterPhases() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    filteredPhases = allPhases.filter(
+      (p) =>
+        p.title.toLowerCase().includes(query) ||
+        p.weeks.toLowerCase().includes(query) ||
+        p.tasks.some((t) => t.text.toLowerCase().includes(query)),
+    );
+    renderPhases(filteredPhases);
+  }
+
+  // Sort phases
+  function sortPhases() {
+    const sortType = document.getElementById("sortSelect").value;
+    let sorted = [...filteredPhases];
+
+    if (sortType === "weeks") {
+      sorted.sort((a, b) => {
+        const aNum = parseInt(a.weeks.match(/\d+/)[0]);
+        const bNum = parseInt(b.weeks.match(/\d+/)[0]);
+        return aNum - bNum;
+      });
+    }
+
+    filteredPhases = sorted;
+    renderPhases(filteredPhases);
+  }
+
+  // Render timeline view
+  function renderTimeline() {
+    const timeline = document.getElementById("timeline");
+    if (!timeline) return;
+
+    timeline.innerHTML = "";
+    allPhases.forEach((p, i) => {
+      const el = document.createElement("div");
+      el.className = "flex gap-6 pb-8";
+      el.innerHTML = `
+        <div class="flex flex-col items-center">
+          <div class="w-4 h-4 rounded-full ${p.dot} ring-4 ring-gray-800"></div>
+          ${i < allPhases.length - 1 ? '<div class="w-1 h-24 bg-gradient-to-b from-gray-700 to-gray-800 mt-4"></div>' : ""}
+        </div>
+        <div class="pt-1 pb-8 flex-1">
+          <h3 class="font-semibold text-lg">${p.title}</h3>
+          <p class="text-sm text-gray-400 mt-1">${p.weeks}</p>
+          <div class="mt-3 text-sm text-gray-300 space-y-1">
+            ${p.tasks
+              .slice(0, 3)
+              .map(
+                (t) =>
+                  `<div>• ${t.text.substring(0, 60)}${t.text.length > 60 ? "..." : ""}</div>`,
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+      timeline.appendChild(el);
+    });
+  }
+
+  // Render progress view
+  function renderProgress() {
+    const container = document.getElementById("progressContent");
+    const completed = Object.values(completedPhases).filter((v) => v).length;
+    const total = allPhases.length;
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+    container.innerHTML = `
+      <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
+        <h3 class="text-lg font-semibold mb-4">📊 Overall Progress</h3>
+        <div class="flex items-end gap-4">
+          <div class="flex-1">
+            <div class="h-8 rounded-lg overflow-hidden bg-gray-700">
+              <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500" style="width: ${percentage}%"></div>
+            </div>
+          </div>
+          <div class="text-3xl font-bold">${percentage}%</div>
+        </div>
+        <p class="text-sm text-gray-400 mt-4">${completed} of ${total} phases completed</p>
       </div>
-      ${p.warning ? `<div class="warning">${p.warning}</div>` : ''}
-    </div>
-  `;
-  container.appendChild(el);
-});
+      
+      <div class="space-y-3">
+        ${allPhases
+          .map((p, i) => {
+            const phaseId = `phase-${i}`;
+            const isCompleted = completedPhases[phaseId];
+            return `
+            <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-3 h-3 rounded-full ${p.dot}"></div>
+                <div>
+                  <div class="font-semibold">${p.title}</div>
+                  <div class="text-xs text-gray-400">${p.weeks}</div>
+                </div>
+              </div>
+              <div class="text-2xl cursor-pointer" onclick="togglePhaseCheckbox(${i}, {target: {checked: !${isCompleted}}})">
+                ${isCompleted ? "✅" : "⭕"}
+              </div>
+            </div>
+          `;
+          })
+          .join("")}
+      </div>
+    `;
+  }
 
-function toggle(i) {
-  const body = document.getElementById('body-' + i);
-  const arrow = document.getElementById('arrow-' + i);
-  body.classList.toggle('open');
-  arrow.classList.toggle('open');
-}
+  // Export data
+  function exportData() {
+    const data = {
+      phases: allPhases,
+      progress: completedPhases,
+      exportDate: new Date().toLocaleString(),
+    };
+
+    const dataStr = JSON.stringify(data, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `roadmap-progress-${new Date().toISOString().split("T")[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // Toggle dark mode (placeholder)
+  function toggleDarkMode() {
+    alert("Theme selector (ready to extend with light mode)");
+  }
+
+  // Load phases when DOM is ready
+  loadPhases();
 </script>
