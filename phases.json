@@ -3,6 +3,8 @@
     "dot": "bg-[#D85A30]",
     "title": "Phase 0 — system design primer (moved earlier)",
     "weeks": "Week 1 · 1 week",
+    "difficulty": "Medium",
+    "checked": false,
     "tasks": [
       {
         "text": "<strong>Read</strong> System Design Primer (GitHub) — 2 hrs total"
@@ -24,6 +26,8 @@
     "dot": "bg-[#7F77DD]",
     "title": "Phase 1 — core fundamentals",
     "weeks": "Weeks 2–4 · 3 weeks",
+    "difficulty": "Hard",
+    "checked": false,
     "tasks": [
       {
         "text": "<strong>Node.js</strong>: event loop deeply, async/await, error handling, streams basics, Express middleware"
@@ -47,6 +51,8 @@
     "dot": "bg-[#1D9E75]",
     "title": "Phase 2 — build real projects (apply clean code here)",
     "weeks": "Weeks 5–12 · 8 weeks",
+    "difficulty": "Hard",
+    "checked": false,
     "tasks": [
       {
         "text": "<strong>Project 1 (weeks 5–8)</strong>: Full-stack SaaS — Task Manager or CRM. Stack: Next.js + Node.js/Express + PostgreSQL. Must include: JWT auth, CRUD, role-based access, deployed live."
@@ -67,6 +73,8 @@
     "dot": "bg-[#D85A30]",
     "title": "Phase 3 — deepen system design",
     "weeks": "Weeks 13–15 · 3 weeks",
+    "difficulty": "Medium",
+    "checked": false,
     "tasks": [
       {
         "text": "<strong>Caching</strong>: Redis basics — what to cache, TTL, cache invalidation"
@@ -86,6 +94,8 @@
     "dot": "bg-[#378ADD]",
     "title": "Phase 4 — tools & workflow",
     "weeks": "Weeks 14–16 · 2 weeks (parallel with Phase 3)",
+    "difficulty": "Easy",
+    "checked": false,
     "tasks": [
       {
         "text": "<strong>Git</strong>: feature branching, rebasing, squash commits, pull request workflow"
@@ -105,6 +115,8 @@
     "dot": "bg-[#639922]",
     "title": "Phase 5 — portfolio polish",
     "weeks": "Weeks 17–18 · 2 weeks",
+    "difficulty": "Medium",
+    "checked": false,
     "tasks": [
       {
         "text": "<strong>3–5 projects</strong>: each needs live demo, clean README with architecture diagram, problem statement, tech choices explained"
@@ -125,6 +137,8 @@
     "dot": "bg-[#BA7517]",
     "title": "Phase 6 — interview readiness",
     "weeks": "Weeks 19–20 · 2 weeks",
+    "difficulty": "Hard",
+    "checked": false,
     "tasks": [
       {
         "text": "<strong>DSA</strong>: by now you should have 60+ days of daily practice done — focus on patterns: sliding window, two pointers, BFS/DFS, DP basics"

@@ -1,6 +1,69 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
+<style>
+  .theme-light {
+    color: #111 !important;
+    background: #f3f4f6 !important;
+  }
+
+  .theme-light .bg-gray-900 {
+    background-color: #f8fafc !important;
+  }
+  .theme-light .bg-gray-800 {
+    background-color: #ffffff !important;
+  }
+  .theme-light .bg-gray-700 {
+    background-color: #e5e7eb !important;
+  }
+  .theme-light .bg-gray-600 {
+    background-color: #d1d5db !important;
+  }
+  .theme-light .bg-gray-500 {
+    background-color: #6b7280 !important;
+  }
+  .theme-light .bg-gray-50 {
+    background-color: #f9fafb !important;
+  }
+  .theme-light .bg-gray-100 {
+    background-color: #f3f4f6 !important;
+  }
+  .theme-light .text-white {
+    color: #111 !important;
+  }
+  .theme-light .text-gray-400 {
+    color: #52525b !important;
+  }
+  .theme-light .text-gray-300 {
+    color: #4b5563 !important;
+  }
+  .theme-light .text-gray-600 {
+    color: #4b5563 !important;
+  }
+  .theme-light .border-gray-700 {
+    border-color: #d1d5db !important;
+  }
+  .theme-light .border-gray-800 {
+    border-color: #d1d5db !important;
+  }
+  .theme-light .border-gray-600 {
+    border-color: #cbd5e1 !important;
+  }
+  .theme-light .placeholder-gray-400::placeholder {
+    color: #64748b !important;
+  }
+  .theme-light .hover\:bg-gray-700:hover {
+    background-color: #e5e7eb !important;
+  }
+  .theme-light input,
+  .theme-light select {
+    background-color: #ffffff !important;
+    color: #111 !important;
+    border-color: #cbd5e1 !important;
+  }
+</style>
+
 <div
+  id="appRoot"
   class="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans overflow-hidden"
 >
   <!-- Sidebar Navigation -->
@@ -241,6 +304,13 @@
     const stored = localStorage.getItem("roadmapProgress");
     if (stored) {
       completedPhases = JSON.parse(stored);
+    } else {
+      // Load default checked state from JSON
+      allPhases.forEach((p, i) => {
+        if (p.checked) {
+          completedPhases[`phase-${i}`] = true;
+        }
+      });
     }
     updateCompletedCount();
   }
@@ -316,7 +386,15 @@
 
     phases.forEach((p, i) => {
       const phaseId = `phase-${i}`;
-      const isCompleted = completedPhases[phaseId];
+      const isCompleted = completedPhases[phaseId] || p.checked;
+
+      const difficultyColors = {
+        Easy: "bg-green-500 text-green-900",
+        Medium: "bg-yellow-500 text-yellow-900",
+        Hard: "bg-red-500 text-red-900",
+      };
+
+      const difficultyBg = difficultyColors[p.difficulty] || "bg-gray-500";
 
       const el = document.createElement("div");
       el.className =
@@ -330,6 +408,7 @@
             <div class="font-semibold text-white">${p.title}</div>
             <div class="text-xs text-gray-400 mt-0.5">${p.weeks}</div>
           </div>
+          <span class="px-2 py-1 rounded text-xs font-medium ${difficultyBg}">${p.difficulty}</span>
           <span class="text-gray-400 transition-transform duration-200" id="arrow-${i}">▼</span>
         </div>
         <div class="hidden p-4 border-t border-gray-700 bg-gray-800" id="body-${i}">
@@ -399,6 +478,13 @@
         const bNum = parseInt(b.weeks.match(/\d+/)[0]);
         return aNum - bNum;
       });
+    } else if (sortType === "difficulty") {
+      const difficultyOrder = { Easy: 1, Medium: 2, Hard: 3 };
+      sorted.sort((a, b) => {
+        const aLevel = difficultyOrder[a.difficulty] || 0;
+        const bLevel = difficultyOrder[b.difficulty] || 0;
+        return bLevel - aLevel; // Sort Hard -> Medium -> Easy
+      });
     }
 
     filteredPhases = sorted;
@@ -410,8 +496,15 @@
     const timeline = document.getElementById("timeline");
     if (!timeline) return;
 
+    const difficultyColors = {
+      Easy: "bg-green-500 text-green-900",
+      Medium: "bg-yellow-500 text-yellow-900",
+      Hard: "bg-red-500 text-red-900",
+    };
+
     timeline.innerHTML = "";
     allPhases.forEach((p, i) => {
+      const difficultyBg = difficultyColors[p.difficulty] || "bg-gray-500";
       const el = document.createElement("div");
       el.className = "flex gap-6 pb-8";
       el.innerHTML = `
@@ -420,7 +513,10 @@
           ${i < allPhases.length - 1 ? '<div class="w-1 h-24 bg-gradient-to-b from-gray-700 to-gray-800 mt-4"></div>' : ""}
         </div>
         <div class="pt-1 pb-8 flex-1">
-          <h3 class="font-semibold text-lg">${p.title}</h3>
+          <div class="flex items-center gap-2 mb-1">
+            <h3 class="font-semibold text-lg">${p.title}</h3>
+            <span class="px-2 py-1 rounded text-xs font-medium ${difficultyBg}">${p.difficulty}</span>
+          </div>
           <p class="text-sm text-gray-400 mt-1">${p.weeks}</p>
           <div class="mt-3 text-sm text-gray-300 space-y-1">
             ${p.tasks
@@ -444,6 +540,12 @@
     const total = allPhases.length;
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
+    const difficultyColors = {
+      Easy: "bg-green-500 text-green-900",
+      Medium: "bg-yellow-500 text-yellow-900",
+      Hard: "bg-red-500 text-red-900",
+    };
+
     container.innerHTML = `
       <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
         <h3 class="text-lg font-semibold mb-4">📊 Overall Progress</h3>
@@ -457,21 +559,24 @@
         </div>
         <p class="text-sm text-gray-400 mt-4">${completed} of ${total} phases completed</p>
       </div>
-      
+
       <div class="space-y-3">
         ${allPhases
           .map((p, i) => {
             const phaseId = `phase-${i}`;
-            const isCompleted = completedPhases[phaseId];
+            const isCompleted = completedPhases[phaseId] || p.checked;
+            const difficultyBg =
+              difficultyColors[p.difficulty] || "bg-gray-500";
             return `
             <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 flex items-center justify-between">
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 flex-1">
                 <div class="w-3 h-3 rounded-full ${p.dot}"></div>
                 <div>
                   <div class="font-semibold">${p.title}</div>
                   <div class="text-xs text-gray-400">${p.weeks}</div>
                 </div>
               </div>
+              <span class="px-2 py-1 rounded text-xs font-medium ${difficultyBg} mr-3">${p.difficulty}</span>
               <div class="text-2xl cursor-pointer" onclick="togglePhaseCheckbox(${i}, {target: {checked: !${isCompleted}}})">
                 ${isCompleted ? "✅" : "⭕"}
               </div>
@@ -501,11 +606,28 @@
     URL.revokeObjectURL(url);
   }
 
-  // Toggle dark mode (placeholder)
+  // Toggle dark/light mode
   function toggleDarkMode() {
-    alert("Theme selector (ready to extend with light mode)");
+    const root = document.getElementById("appRoot");
+    const isLight = root.classList.contains("theme-light");
+
+    if (isLight) {
+      root.classList.remove("theme-light");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.add("theme-light");
+      localStorage.setItem("theme", "light");
+    }
   }
 
-  // Load phases when DOM is ready
-  loadPhases();
+  // Load phases and restore theme when DOM is ready
+  (function initializeApp() {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    const root = document.getElementById("appRoot");
+    if (savedTheme === "light") {
+      root.classList.add("theme-light");
+    }
+
+    loadPhases();
+  })();
 </script>
