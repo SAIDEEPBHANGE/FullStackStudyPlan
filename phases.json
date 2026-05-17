@@ -7,16 +7,20 @@
     "checked": false,
     "tasks": [
       {
-        "text": "<strong>Read</strong> System Design Primer (GitHub) — 2 hrs total"
+        "text": "<strong>Read</strong> System Design Primer (GitHub) — 2 hrs total",
+        "checked": false
       },
       {
-        "text": "<strong>Sketch</strong> your SaaS app's architecture before writing any code: DB schema, API routes, folder structure"
+        "text": "<strong>Sketch</strong> your SaaS app's architecture before writing any code: DB schema, API routes, folder structure",
+        "checked": false
       },
       {
-        "text": "<strong>Learn</strong> REST API design basics: versioning, status codes, error formats, pagination"
+        "text": "<strong>Learn</strong> REST API design basics: versioning, status codes, error formats, pagination",
+        "checked": false
       },
       {
-        "text": "<strong>Understand</strong> monolith-first — start with a monolith, don't jump to microservices"
+        "text": "<strong>Understand</strong> monolith-first — start with a monolith, don't jump to microservices",
+        "checked": false
       }
     ],
     "warning": "Critical fix: doing this before Phase 1 prevents architectural regrets in your real projects.",
@@ -30,19 +34,24 @@
     "checked": false,
     "tasks": [
       {
-        "text": "<strong>Node.js</strong>: event loop deeply, async/await, error handling, streams basics, Express middleware"
+        "text": "<strong>Node.js</strong>: event loop deeply, async/await, error handling, streams basics, Express middleware",
+        "checked": false
       },
       {
-        "text": "<strong>JavaScript</strong>: closures, prototypes, promises, ES6+ — do exercises, not just reading"
+        "text": "<strong>JavaScript</strong>: closures, prototypes, promises, ES6+ — do exercises, not just reading",
+        "checked": false
       },
       {
-        "text": "<strong>React</strong>: useEffect, useMemo, useCallback — build small components for each, don't just read docs"
+        "text": "<strong>React</strong>: useEffect, useMemo, useCallback — build small components for each, don't just read docs",
+        "checked": false
       },
       {
-        "text": "<strong>State management</strong>: Context API first, Redux only if project demands it"
+        "text": "<strong>State management</strong>: Context API first, Redux only if project demands it",
+        "checked": false
       },
       {
-        "text": "<strong>PostgreSQL</strong>: joins, indexes, transactions — run real queries in psql, not just ORM"
+        "text": "<strong>PostgreSQL</strong>: joins, indexes, transactions — run real queries in psql, not just ORM",
+        "checked": false
       }
     ],
     "warning": "Do not spend more than 3 weeks here. Good enough > perfect. Move to projects by week 5."
@@ -55,16 +64,20 @@
     "checked": false,
     "tasks": [
       {
-        "text": "<strong>Project 1 (weeks 5–8)</strong>: Full-stack SaaS — Task Manager or CRM. Stack: Next.js + Node.js/Express + PostgreSQL. Must include: JWT auth, CRUD, role-based access, deployed live."
+        "text": "<strong>Project 1 (weeks 5–8)</strong>: Full-stack SaaS — Task Manager or CRM. Stack: Next.js + Node.js/Express + PostgreSQL. Must include: JWT auth, CRUD, role-based access, deployed live.",
+        "checked": false
       },
       {
-        "text": "<strong>Project 2 (weeks 9–11)</strong>: AI-powered app — pick a specific real problem (e.g. 'job listing summarizer for non-English speakers'), not just an OpenAI wrapper. Streaming responses, clean UI."
+        "text": "<strong>Project 2 (weeks 9–11)</strong>: AI-powered app — pick a specific real problem (e.g. 'job listing summarizer for non-English speakers'), not just an OpenAI wrapper. Streaming responses, clean UI.",
+        "checked": false
       },
       {
-        "text": "<strong>Project 3 (weeks 12)</strong>: Production-grade REST API — pagination, filtering, rate limiting, logging (use Winston or Pino), proper error middleware."
+        "text": "<strong>Project 3 (weeks 12)</strong>: Production-grade REST API — pagination, filtering, rate limiting, logging (use Winston or Pino), proper error middleware.",
+        "checked": false
       },
       {
-        "text": "<strong>Clean code integrated</strong>: Apply SOLID, DRY, folder structure, unit tests as you build — not after."
+        "text": "<strong>Clean code integrated</strong>: Apply SOLID, DRY, folder structure, unit tests as you build — not after.",
+        "checked": false
       }
     ],
     "warning": "Each project must be deployed with a live URL and README before moving on. No exceptions."
@@ -77,16 +90,20 @@
     "checked": false,
     "tasks": [
       {
-        "text": "<strong>Caching</strong>: Redis basics — what to cache, TTL, cache invalidation"
+        "text": "<strong>Caching</strong>: Redis basics — what to cache, TTL, cache invalidation",
+        "checked": false
       },
       {
-        "text": "<strong>DB design</strong>: indexing strategies, normalization vs denormalization tradeoffs"
+        "text": "<strong>DB design</strong>: indexing strategies, normalization vs denormalization tradeoffs",
+        "checked": false
       },
       {
-        "text": "<strong>Scalability thinking</strong>: read replicas, connection pooling, N+1 query problem"
+        "text": "<strong>Scalability thinking</strong>: read replicas, connection pooling, N+1 query problem",
+        "checked": false
       },
       {
-        "text": "<strong>Practice</strong>: verbally design a URL shortener, a Twitter feed, a notification system — out loud"
+        "text": "<strong>Practice</strong>: verbally design a URL shortener, a Twitter feed, a notification system — out loud",
+        "checked": false
       }
     ]
   },
@@ -98,16 +115,20 @@
     "checked": false,
     "tasks": [
       {
-        "text": "<strong>Git</strong>: feature branching, rebasing, squash commits, pull request workflow"
+        "text": "<strong>Git</strong>: feature branching, rebasing, squash commits, pull request workflow",
+        "checked": false
       },
       {
-        "text": "<strong>CI/CD</strong>: GitHub Actions — auto-run tests on PR, auto-deploy on merge to main"
+        "text": "<strong>CI/CD</strong>: GitHub Actions — auto-run tests on PR, auto-deploy on merge to main",
+        "checked": false
       },
       {
-        "text": "<strong>Deployment</strong>: Render or Railway for backend, Vercel for frontend — keep it simple at this stage"
+        "text": "<strong>Deployment</strong>: Render or Railway for backend, Vercel for frontend — keep it simple at this stage",
+        "checked": false
       },
       {
-        "text": "<strong>Docker basics</strong>: containerize your Node.js app — this shows up in interviews"
+        "text": "<strong>Docker basics</strong>: containerize your Node.js app — this shows up in interviews",
+        "checked": false
       }
     ]
   },
@@ -119,16 +140,20 @@
     "checked": false,
     "tasks": [
       {
-        "text": "<strong>3–5 projects</strong>: each needs live demo, clean README with architecture diagram, problem statement, tech choices explained"
+        "text": "<strong>3–5 projects</strong>: each needs live demo, clean README with architecture diagram, problem statement, tech choices explained",
+        "checked": false
       },
       {
-        "text": "<strong>GitHub profile</strong>: pinned repos, contribution graph visible, profile README"
+        "text": "<strong>GitHub profile</strong>: pinned repos, contribution graph visible, profile README",
+        "checked": false
       },
       {
-        "text": "<strong>Get feedback</strong>: post your code in communities (r/webdev, dev.to, Discord servers) — you need external review"
+        "text": "<strong>Get feedback</strong>: post your code in communities (r/webdev, dev.to, Discord servers) — you need external review",
+        "checked": false
       },
       {
-        "text": "<strong>Open source</strong>: at least 1 small contribution — a bug fix counts"
+        "text": "<strong>Open source</strong>: at least 1 small contribution — a bug fix counts",
+        "checked": false
       }
     ],
     "warning": "Missing: your original plan had no feedback loop. This is the most important fix — get a senior dev to review at least one project."
@@ -141,19 +166,24 @@
     "checked": false,
     "tasks": [
       {
-        "text": "<strong>DSA</strong>: by now you should have 60+ days of daily practice done — focus on patterns: sliding window, two pointers, BFS/DFS, DP basics"
+        "text": "<strong>DSA</strong>: by now you should have 60+ days of daily practice done — focus on patterns: sliding window, two pointers, BFS/DFS, DP basics",
+        "checked": false
       },
       {
-        "text": "<strong>System design mock</strong>: do 2–3 mock designs with a peer or record yourself"
+        "text": "<strong>System design mock</strong>: do 2–3 mock designs with a peer or record yourself",
+        "checked": false
       },
       {
-        "text": "<strong>Resume</strong>: 1 page, each bullet = impact + tech used, link to live projects"
+        "text": "<strong>Resume</strong>: 1 page, each bullet = impact + tech used, link to live projects",
+        "checked": false
       },
       {
-        "text": "<strong>LinkedIn</strong>: 'Open to work', list projects with URLs, connect with 20+ devs in your target companies"
+        "text": "<strong>LinkedIn</strong>: 'Open to work', list projects with URLs, connect with 20+ devs in your target companies",
+        "checked": false
       },
       {
-        "text": "<strong>Apply</strong>: start applying by week 18, not after — interviews take 3–6 weeks to materialise"
+        "text": "<strong>Apply</strong>: start applying by week 18, not after — interviews take 3–6 weeks to materialise",
+        "checked": false
       }
     ]
   }

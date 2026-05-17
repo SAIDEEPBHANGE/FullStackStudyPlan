@@ -297,27 +297,48 @@
   let allPhases = [];
   let filteredPhases = [];
   let completedPhases = {};
+  let taskProgress = {};
   let currentView = "overview";
 
   // Initialize local storage for progress tracking
   function initializeProgress() {
     const stored = localStorage.getItem("roadmapProgress");
     if (stored) {
-      completedPhases = JSON.parse(stored);
-    } else {
-      // Load default checked state from JSON
-      allPhases.forEach((p, i) => {
-        if (p.checked) {
-          completedPhases[`phase-${i}`] = true;
+      const parsed = JSON.parse(stored);
+      if (
+        parsed &&
+        typeof parsed === "object" &&
+        (parsed.phases || parsed.tasks)
+      ) {
+        completedPhases = parsed.phases || {};
+        taskProgress = parsed.tasks || {};
+      } else {
+        completedPhases = parsed;
+      }
+    }
+
+    // Load default checked state from JSON
+    allPhases.forEach((p, i) => {
+      if (p.checked) {
+        completedPhases[`phase-${i}`] = true;
+      }
+      p.tasks.forEach((t, taskIdx) => {
+        const taskKey = `phase-${i}-task-${taskIdx}`;
+        if (typeof taskProgress[taskKey] === "undefined" && t.checked) {
+          taskProgress[taskKey] = true;
         }
       });
-    }
+    });
+
     updateCompletedCount();
   }
 
   // Save progress to local storage
   function saveProgress() {
-    localStorage.setItem("roadmapProgress", JSON.stringify(completedPhases));
+    localStorage.setItem(
+      "roadmapProgress",
+      JSON.stringify({ phases: completedPhases, tasks: taskProgress }),
+    );
     updateCompletedCount();
   }
 
@@ -386,7 +407,11 @@
 
     phases.forEach((p, i) => {
       const phaseId = `phase-${i}`;
-      const isCompleted = completedPhases[phaseId] || p.checked;
+      const allTasksChecked = p.tasks.every(
+        (t, taskIdx) => taskProgress[`phase-${i}-task-${taskIdx}`] || t.checked,
+      );
+      const isCompleted =
+        completedPhases[phaseId] || p.checked || allTasksChecked;
 
       const difficultyColors = {
         Easy: "bg-green-500 text-green-900",
@@ -415,14 +440,16 @@
           ${p.warning ? `<div class="text-xs text-yellow-400 bg-yellow-900 bg-opacity-20 border border-yellow-700 rounded px-3 py-2 mb-3">⚠️ ${p.warning}</div>` : ""}
           <div class="space-y-2">
             ${p.tasks
-              .map(
-                (t, taskIdx) => `
+              .map((t, taskIdx) => {
+                const taskKey = `phase-${i}-task-${taskIdx}`;
+                const taskChecked = taskProgress[taskKey] || t.checked;
+                return `
               <div class="flex gap-3 items-start text-sm text-gray-300">
-                <input type="checkbox" class="mt-1 cursor-pointer w-4 h-4 rounded" onchange="saveProgress()" data-phase="${i}" data-task="${taskIdx}">
+                <input type="checkbox" class="mt-1 cursor-pointer w-4 h-4 rounded" ${taskChecked ? "checked" : ""} onclick="toggleTaskCheckbox(${i}, ${taskIdx}, event)">
                 <div>${t.text}</div>
               </div>
-            `,
-              )
+            `;
+              })
               .join("")}
           </div>
         </div>
@@ -452,6 +479,27 @@
   function togglePhaseCheckbox(i, event) {
     const phaseId = `phase-${i}`;
     completedPhases[phaseId] = event.target.checked;
+    saveProgress();
+  }
+
+  // Toggle task completion
+  function toggleTaskCheckbox(phaseIndex, taskIndex, event) {
+    const taskKey = `phase-${phaseIndex}-task-${taskIndex}`;
+    taskProgress[taskKey] = event.target.checked;
+
+    const phaseTasks = allPhases[phaseIndex].tasks;
+    const allTasksChecked = phaseTasks.every(
+      (_, idx) =>
+        taskProgress[`phase-${phaseIndex}-task-${idx}`] ||
+        phaseTasks[idx].checked,
+    );
+    const phaseId = `phase-${phaseIndex}`;
+    if (allTasksChecked) {
+      completedPhases[phaseId] = true;
+    } else {
+      delete completedPhases[phaseId];
+    }
+
     saveProgress();
   }
 
