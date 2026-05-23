@@ -1,0 +1,118 @@
+.theme-light {
+  color: #111 !important;
+  background: #f3f4f6 !important;
+}
+
+.theme-light .bg-gray-900 {
+  background-color: #f8fafc !important;
+}
+
+.theme-light .bg-gray-800 {
+  background-color: #ffffff !important;
+}
+
+.theme-light .bg-gray-700 {
+  background-color: #e5e7eb !important;
+}
+
+.theme-light .bg-gray-600 {
+  background-color: #d1d5db !important;
+}
+
+.theme-light .bg-gray-500 {
+  background-color: #6b7280 !important;
+}
+
+.theme-light .bg-gray-50 {
+  background-color: #f9fafb !important;
+}
+
+.theme-light .bg-gray-100 {
+  background-color: #f3f4f6 !important;
+}
+
+.theme-light .text-white {
+  color: #111 !important;
+}
+
+.theme-light .text-gray-400 {
+  color: #52525b !important;
+}
+
+.theme-light .text-gray-300 {
+  color: #4b5563 !important;
+}
+
+.theme-light .text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.theme-light .border-gray-700 {
+  border-color: #d1d5db !important;
+}
+
+.theme-light .border-gray-800 {
+  border-color: #d1d5db !important;
+}
+
+.theme-light .border-gray-600 {
+  border-color: #cbd5e1 !important;
+}
+
+.theme-light .placeholder-gray-400::placeholder {
+  color: #64748b !important;
+}
+
+.theme-light .hover\:bg-gray-700:hover {
+  background-color: #e5e7eb !important;
+}
+
+.theme-light input,
+.theme-light select {
+  background-color: #ffffff !important;
+  color: #111 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.resource-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+}
+
+.resource-chip[data-type="video"] {
+  background-color: #2563eb;
+  border-color: #1d4ed8;
+  color: #eff6ff;
+}
+
+.resource-chip[data-type="article"] {
+  background-color: #16a34a;
+  border-color: #15803d;
+  color: #ecfccb;
+}
+
+.resource-chip[data-type="course"] {
+  background-color: #c084fc;
+  border-color: #7c3aed;
+  color: #f5f3ff;
+}
+
+.resource-chip[data-type="tutorial"] {
+  background-color: #f59e0b;
+  border-color: #d97706;
+  color: #fffbeb;
+}
+
+.phase-completed {
+  opacity: 0.68;
+  background-color: #064e3b !important;
+  border-color: #22c55e !important;
+}

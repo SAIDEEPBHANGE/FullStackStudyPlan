@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A full-stack developer study roadmap with phases, timeline, progress tracking, and dark/light theme support."
+    />
+    <meta property="og:title" content="DevRoadmap Full-Stack Study Plan" />
+    <meta
+      property="og:description"
+      content="A full-stack developer study roadmap with phases, timeline, progress tracking, and dark/light theme support."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://example.com/" />
+    <meta property="og:image" content="https://example.com/og-image.png" />
+    <title>DevRoadmap Full-Stack Study Plan</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div
+      id="appRoot"
+      class="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans overflow-hidden"
+    >
+      <!-- Sidebar Navigation -->
+      <div
+        class="w-64 bg-gray-900 border-r border-gray-700 flex flex-col p-6 overflow-y-auto"
+      >
+        <div class="mb-8">
+          <h1
+            class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
+          >
+            DevRoadmap
+          </h1>
+          <p class="text-xs text-gray-500 mt-1">Full-Stack Journey</p>
+        </div>
+
+        <nav class="space-y-2 flex-1">
+          <button
+            onclick="switchView('overview', event)"
+            class="view-btn w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg"
+            data-view="overview"
+          >
+            📊 Overview
+          </button>
+          <button
+            onclick="switchView('phases', event)"
+            class="view-btn w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700"
+            data-view="phases"
+          >
+            📚 Phases
+          </button>
+          <button
+            onclick="switchView('timeline', event)"
+            class="view-btn w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700"
+            data-view="timeline"
+          >
+            📅 Timeline
+          </button>
+          <button
+            onclick="switchView('progress', event)"
+            class="view-btn w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700"
+            data-view="progress"
+          >
+            ✅ Progress
+          </button>
+        </nav>
+
+        <div class="border-t border-gray-700 pt-4 space-y-2">
+          <button
+            onclick="exportData()"
+            class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700 flex items-center gap-2"
+          >
+            💾 Export
+          </button>
+          <button
+            onclick="toggleDarkMode()"
+            class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-gray-700 flex items-center gap-2"
+          >
+            🌓 Theme
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <div
+          class="bg-gray-800 border-b border-gray-700 px-8 py-4 flex items-center justify-between"
+        >
+          <div>
+            <h2 class="text-2xl font-bold">Full-Stack Developer Roadmap</h2>
+            <p class="text-sm text-gray-400 mt-1">
+              ~20 weeks · Node.js + React + PostgreSQL
+            </p>
+          </div>
+          <div class="flex gap-3">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="🔍 Search phases..."
+              class="px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:border-blue-500 focus:outline-none transition"
+              onkeyup="filterPhases()"
+            />
+            <select
+              id="sortSelect"
+              onchange="sortPhases()"
+              class="px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:outline-none transition"
+            >
+              <option value="default">Sort by default</option>
+              <option value="difficulty">Sort by difficulty</option>
+              <option value="weeks">Sort by weeks</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="flex-1 overflow-y-auto">
+          <!-- Overview Tab -->
+          <div id="overview-view" class="view-content p-8 space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div
+                class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6"
+              >
+                <div class="text-3xl font-bold">20</div>
+                <div class="text-sm text-blue-100 mt-1">Total Weeks</div>
+              </div>
+              <div
+                class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6"
+              >
+                <div class="text-3xl font-bold">7</div>
+                <div class="text-sm text-purple-100 mt-1">Phases</div>
+              </div>
+              <div
+                class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6"
+              >
+                <div class="text-3xl font-bold">4</div>
+                <div class="text-sm text-green-100 mt-1">Daily Hours</div>
+              </div>
+              <div
+                class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6"
+              >
+                <div class="text-3xl font-bold" id="completedPhases">0</div>
+                <div class="text-sm text-orange-100 mt-1">Completed</div>
+              </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+              <h3 class="text-lg font-semibold mb-4">📍 Quick Info</h3>
+              <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">⏰</span>
+                  <span>2–4 hrs/day learning + building</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">📚</span>
+                  <span>Node.js + React/Next.js + PostgreSQL</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">💻</span>
+                  <span>Employed / transitioning developers</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">⚡</span>
+                  <span>Parallel DSA track from week 1</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-900 border border-blue-500 rounded-lg p-4">
+              <div class="flex items-start gap-3">
+                <span class="text-2xl">⚑</span>
+                <div>
+                  <div class="font-semibold">Parallel Track (Required)</div>
+                  <p class="text-sm text-blue-100 mt-1">
+                    20–30 min/day DSA on LeetCode — arrays, strings, hashmaps
+                    first. Do not defer to Phase 7.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+              <h3 class="text-lg font-semibold mb-4">
+                ⏱️ Daily Time Allocation
+              </h3>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium">📖 Learning</span>
+                    <span class="text-xs text-gray-400">1 hour (25%)</span>
+                  </div>
+                  <div class="h-3 rounded-full overflow-hidden bg-gray-700">
+                    <div
+                      class="h-full w-1/4 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium">🛠️ Building</span>
+                    <span class="text-xs text-gray-400">2–3 hours (62%)</span>
+                  </div>
+                  <div class="h-3 rounded-full overflow-hidden bg-gray-700">
+                    <div
+                      class="h-full w-3/5 bg-gradient-to-r from-green-400 to-green-500 rounded-full"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium">💡 DSA</span>
+                    <span class="text-xs text-gray-400">30 min (13%)</span>
+                  </div>
+                  <div class="h-3 rounded-full overflow-hidden bg-gray-700">
+                    <div
+                      class="h-full w-1/8 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium">📋 Weekly Review</span>
+                    <span class="text-xs text-gray-400">1 day (8%)</span>
+                  </div>
+                  <div class="h-3 rounded-full overflow-hidden bg-gray-700">
+                    <div
+                      class="h-full w-1/12 bg-gradient-to-r from-gray-400 to-gray-500 rounded-full"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phases Tab -->
+          <div id="phases-view" class="view-content hidden p-8 space-y-4">
+            <div id="phases" class="space-y-4"></div>
+          </div>
+
+          <!-- Timeline Tab -->
+          <div id="timeline-view" class="view-content hidden p-8">
+            <div id="timeline" class="space-y-6"></div>
+          </div>
+
+          <!-- Progress Tab -->
+          <div id="progress-view" class="view-content hidden p-8">
+            <div id="progressContent" class="space-y-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
