@@ -22,11 +22,11 @@
   <body>
     <div
       id="appRoot"
-      class="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans overflow-hidden"
+      class="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans overflow-hidden"
     >
       <!-- Sidebar Navigation -->
       <div
-        class="w-64 bg-gray-900 border-r border-gray-700 flex flex-col p-6 overflow-y-auto"
+        class="w-full md:w-64 bg-gray-900 border-b border-gray-700 md:border-b-0 md:border-r flex flex-col p-6 overflow-y-auto md:h-screen"
       >
         <div class="mb-8">
           <h1
@@ -88,7 +88,7 @@
       <div class="flex-1 flex flex-col overflow-hidden">
         <!-- Header -->
         <div
-          class="bg-gray-800 border-b border-gray-700 px-8 py-4 flex items-center justify-between"
+          class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div>
             <h2 class="text-2xl font-bold">Full-Stack Developer Roadmap</h2>
@@ -96,18 +96,18 @@
               ~20 weeks · Node.js + React + PostgreSQL
             </p>
           </div>
-          <div class="flex gap-3">
+          <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <input
               type="text"
               id="searchInput"
               placeholder="🔍 Search phases..."
-              class="px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:border-blue-500 focus:outline-none transition"
+              class="w-full sm:w-72 px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:border-blue-500 focus:outline-none transition"
               onkeyup="filterPhases()"
             />
             <select
               id="sortSelect"
               onchange="sortPhases()"
-              class="px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:outline-none transition"
+              class="w-full sm:w-auto px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:outline-none transition"
             >
               <option value="default">Sort by default</option>
               <option value="difficulty">Sort by difficulty</option>
