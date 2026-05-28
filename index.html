@@ -22,19 +22,34 @@
   <body>
     <div
       id="appRoot"
-      class="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans overflow-hidden"
+      class="relative flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans overflow-hidden"
     >
+      <div
+        id="sidebarOverlay"
+        class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden"
+        onclick="toggleSidebar()"
+      ></div>
       <!-- Sidebar Navigation -->
       <div
-        class="w-full md:w-64 bg-gray-900 border-b border-gray-700 md:border-b-0 md:border-r flex flex-col p-6 overflow-y-auto md:h-screen"
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 transform -translate-x-full md:translate-x-0 md:static md:h-screen bg-gray-900 border-b border-gray-700 md:border-b-0 md:border-r flex flex-col p-6 overflow-y-auto transition-transform duration-300"
       >
-        <div class="mb-8">
-          <h1
-            class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
+        <div class="mb-8 flex items-center justify-between">
+          <div>
+            <h1
+              class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
+            >
+              DevRoadmap
+            </h1>
+            <p class="text-xs text-gray-500 mt-1">Full-Stack Journey</p>
+          </div>
+          <button
+            onclick="toggleSidebar()"
+            class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-800 hover:bg-gray-700 transition"
+            aria-label="Close navigation"
           >
-            DevRoadmap
-          </h1>
-          <p class="text-xs text-gray-500 mt-1">Full-Stack Journey</p>
+            ✕
+          </button>
         </div>
 
         <nav class="space-y-2 flex-1">
@@ -90,11 +105,20 @@
         <div
           class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
-          <div>
-            <h2 class="text-2xl font-bold">Full-Stack Developer Roadmap</h2>
-            <p class="text-sm text-gray-400 mt-1">
-              ~20 weeks · Node.js + React + PostgreSQL
-            </p>
+          <div class="flex items-center justify-between w-full sm:w-auto gap-4">
+            <div>
+              <h2 class="text-2xl font-bold">Full-Stack Developer Roadmap</h2>
+              <p class="text-sm text-gray-400 mt-1">
+                ~20 weeks · Node.js + React + PostgreSQL
+              </p>
+            </div>
+            <button
+              onclick="toggleSidebar()"
+              class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gray-700 hover:bg-gray-600 transition"
+              aria-label="Open navigation"
+            >
+              ☰
+            </button>
           </div>
           <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <input

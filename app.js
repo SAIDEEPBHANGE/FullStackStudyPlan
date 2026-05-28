@@ -268,6 +268,20 @@ function togglePhase(i, event) {
   }
 }
 
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("sidebarOverlay");
+  const isOpen = !sidebar.classList.contains("-translate-x-full");
+
+  if (isOpen) {
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+  } else {
+    sidebar.classList.remove("-translate-x-full");
+    overlay.classList.remove("hidden");
+  }
+}
+
 function togglePhaseCheckbox(i, event) {
   const phaseId = `phase-${i}`;
   completedPhases[phaseId] = event.target.checked;
