@@ -127,7 +127,6 @@ function renderPhases(phases) {
       (isCompleted ? "phase-completed" : "");
     el.innerHTML = `
       <div class="flex items-center gap-3 p-4 cursor-pointer bg-gray-700 hover:bg-gray-600 transition-colors" onclick="togglePhase(${i}, event)">
-        <input type="checkbox" id="check-${i}" class="w-5 h-5 rounded cursor-pointer" ${isCompleted ? "checked" : ""} onclick="togglePhaseCheckbox(${i}, event)">
         <div class="w-3 h-3 rounded-full shrink-0 ${p.dot}"></div>
         <div class="flex-1">
           <div class="font-semibold text-white">${p.title}</div>
@@ -145,7 +144,7 @@ function renderPhases(phases) {
               const taskChecked = taskProgress[taskKey] || t.checked;
               return `
               <div class="flex gap-3 items-start text-sm text-gray-300">
-                <input type="checkbox" class="mt-1 cursor-pointer w-4 h-4 rounded" ${taskChecked ? "checked" : ""} onclick="toggleTaskCheckbox(${i}, ${taskIdx}, event)">
+                <div class="mt-1 w-4 h-4 rounded border border-gray-600 bg-gray-900 ${taskChecked ? "bg-green-600" : "bg-gray-800"}"></div>
                 <div>${t.text}</div>
               </div>
             `;
@@ -241,7 +240,7 @@ function renderProgress() {
                 </div>
               </div>
               <span class="px-2 py-1 rounded text-xs font-medium ${difficultyBg} mr-3">${p.difficulty}</span>
-              <div class="text-2xl cursor-pointer" onclick="togglePhaseCheckbox(${i}, {target: {checked: ${!isCompleted}}})">
+              <div class="text-2xl">
                 ${isCompleted ? "✅" : "⭕"}
               </div>
             </div>
